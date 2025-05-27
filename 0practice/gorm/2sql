@@ -1,0 +1,14 @@
+-- 开启事务
+START TRANSACTION;
+
+-- 查询账户 A 的余额并锁定该行
+SELECT balance FROM accounts WHERE id = 1 FOR UPDATE;
+
+-- 假设余额 >= 100
+UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+UPDATE accounts SET balance = balance + 100 WHERE id = 2;
+INSERT INTO transactions (from_account_id, to_account_id, amount)
+VALUES (1, 2, 100.00);
+
+-- 提交事务
+COMMIT;
