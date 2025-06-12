@@ -1,0 +1,22 @@
+const { ethers, deployments, upgrades } = require("hardhat");
+const { expect } = require("chai");
+
+
+
+describe("strating", async function () {
+  it("Should be able to deploy", async function () {
+    // 1. 部署业务合约
+        const Contract = await ethers.getContractFactory("MyContract");
+        const contract = await Contract.deploy("Hello");
+        await contract.waitForDeployement();
+
+        await contract.createAuction(
+            100 * 1000,
+            ethers.parseEther("0.01"),
+            ethers.ZeroAddress,
+            1
+        );
+        const auction = await contract.auctions(0);
+        console.log("创建拍卖成功：：", auction);
+    })
+})
